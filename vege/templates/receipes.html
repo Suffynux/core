@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Add Recipe</h1>
+                        <form method="post" enctype="multipart/form-data"> <!-- Corrected enctype attribute -->
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="recipeName" class="form-label">Recipe Name</label>
+                                <input name="recipe_name" type="text" class="form-control" id="recipeName" placeholder="Enter Recipe Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipe Description" class="form-label">Recipe Description</label>
+                                <textarea name="recipe_description" class="form-control" id="recipeDescription" placeholder="Enter Recipe Description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipeImage" class="form-label">Recipe Image</label>
+                                <input name="recipe_img" type="file" class="form-control" id="recipeImage">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Recipe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Added the search button section with proper indentation -->
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="searchButton">
+                    <button class="btn btn-primary" type="button" id="searchButton">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Serial no </th>
+            <th scope="col">Reciepe name </th>
+            <th scope="col">Receipe Description</th>
+            <th scope="col">Receipe Image</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for receipe in receipes %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ receipe.receipe_name }}</td>
+                <td>{{ receipe.receipe_description }}</td>
+                <td>
+                    <img src="/media/{{ receipe.receipe_img }}" style="height: 100px">
+                </td>
+                <td><a href="/delete/{{ receipe.id }}/" class="btn btn-danger">Delete</a></td>
+                <td><a href="/update/{{ receipe.id }}/" class="btn btn-success">Update</a></td>
+              </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
